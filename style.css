@@ -878,3 +878,41 @@
   justify-content: center;
   gap: 0.75rem; /* Jarak antara ikon dan teks */
 }
+
+@media (min-width: 769px) {
+
+  /* 1. Sembunyikan tombol hamburger menu di desktop */
+  .menu-toggle {
+    display: none;
+  }
+
+  /* 2. Pastikan navigasi utama selalu terlihat dan horizontal */
+  .main-nav {
+    /* Hapus semua style mobile */
+    position: static;
+    transform: none;
+    flex-direction: row;
+    width: auto !important; /* !important untuk menimpa style inline dari JS */
+    height: auto;
+    background: none;
+    backdrop-filter: none;
+    box-shadow: none;
+    padding: 0;
+    
+    /* Pastikan kembali ke layout flexbox desktop */
+    display: flex;
+    gap: 2rem; /* Sesuaikan gap jika perlu */
+  }
+  
+  /* 3. Kembalikan style link navigasi seperti semula */
+  .nav-item a {
+      display: inline-block; /* Pastikan link tidak block-level */
+      padding: 0.8rem 1.5rem;
+      border-left: none; /* Hapus border kiri dari tampilan mobile */
+  }
+
+  /* 4. Sembunyikan ikon di samping link menu (jika masih muncul) */
+  .nav-item a i {
+    display: none;
+  }
+}
