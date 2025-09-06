@@ -766,31 +766,48 @@
             }
         }
         @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+        }
 
-/* Sedikit penyempurnaan dari animasi slideUp yang ada */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+        /* Sedikit penyempurnaan dari animasi slideUp yang ada */
+        @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        }
 
-/* Class untuk menerapkan animasi */
-.animate-fade-out {
-  animation: fadeOut 0.4s ease-out forwards;
-}
+        /* Class untuk menerapkan animasi */
+        .animate-fade-out {
+        animation: fadeOut 0.4s ease-out forwards;
+        }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
+        .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .feature-box {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .feature-box.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-box:nth-child(1) { transition-delay: 0.1s; }
+        .feature-box:nth-child(2) { transition-delay: 0.2s; }
+        .feature-box:nth-child(3) { transition-delay: 0.25s; }
+        .feature-box:nth-child(4) { transition-delay: 0.35s; }
+
