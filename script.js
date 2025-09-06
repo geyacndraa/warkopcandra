@@ -245,23 +245,23 @@
                 });
             });
 
-            const feedbackForm = document.getElementById('feedbackForm');
-                if (feedbackForm) {
-                    feedbackForm.addEventListener('submit', function(event) {
-                        event.preventDefault();
-                        const whatsAppNumber = '6282141055207'; 
-                        const feedbackMessage = document.getElementById('feedbackMessage').value;
-                        if (feedbackMessage.trim() === '') {
-                            alert('Mohon tuliskan kritik atau saran Anda terlebih dahulu.');
-                            return; // Hentikan fungsi jika pesan kosong
-                        }
-                        const whatsappURL = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(feedbackMessage)}`;
-                        window.open(whatsappURL, '_blank');
-                        document.getElementById('feedbackMessage').value = '';
-                    });
-                }
-                
+        //submit kritik dan saran
+            const submitButton = document.getElementById('kirimSaranBtn'); 
 
+            if (submitButton) {
+                submitButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const whatsAppNumber = '6282141055207';
+                    const feedbackMessage = document.getElementById('feedbackMessage').value;
+                    if (feedbackMessage.trim() === '') {
+                        alert('Mohon tuliskan kritik atau saran Anda terlebih dahulu.');
+                        return;
+                    }
+                    const whatsappURL = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(feedbackMessage)}`;
+                    window.open(whatsappURL, '_blank');
+                    document.getElementById('feedbackMessage').value = '';
+                });
+            }
             // Add search functionality (basic)
             function addSearchFunction() {
                 // PENGECEKAN: Jika input pencarian sudah ada, hentikan fungsi.
