@@ -245,32 +245,24 @@
                 });
             });
 
-            // Add social media link functionality
-            const socialLinks = document.querySelectorAll('.footer-section a');
-            socialLinks.forEach(function(link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const icon = link.querySelector('i');
-                    if (icon) {
-                        let url = '';
-                        if (icon.classList.contains('fa-instagram')) {
-                            url = 'https://instagram.com/warkopcandra';
-                        } else if (icon.classList.contains('fa-facebook')) {
-                            url = 'https://facebook.com/warkopcandra';
-                        } else if (icon.classList.contains('fa-tiktok')) {
-                            url = 'https://tiktok.com/@warkopcandra';
-                        } else if (icon.classList.contains('fa-youtube')) {
-                            url = 'https://youtube.com/@warkopcandra';
+            const feedbackForm = document.getElementById('feedbackForm');
+                if (feedbackForm) {
+                    feedbackForm.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const whatsAppNumber = '6282141055207'; 
+                        const feedbackMessage = document.getElementById('feedbackMessage').value;
+                        if (feedbackMessage.trim() === '') {
+                            alert('Mohon tuliskan kritik atau saran Anda terlebih dahulu.');
+                            return; // Hentikan fungsi jika pesan kosong
                         }
-                        
-                        if (url) {
-                            window.open(url, '_blank');
-                        }
-                    }
-                });
-            });
+                        const whatsappURL = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(feedbackMessage)}`;
+                        window.open(whatsappURL, '_blank');
+                        document.getElementById('feedbackMessage').value = '';
+                    });
+                }
+                
 
-// Add search functionality (basic)
+            // Add search functionality (basic)
             function addSearchFunction() {
                 // PENGECEKAN: Jika input pencarian sudah ada, hentikan fungsi.
                 if (document.getElementById('menuSearchInput')) {
@@ -437,3 +429,4 @@
                 showNotification('Selamat datang di Warkop Candra! ☕', 'success');
             }, 2000);
         });
+        
