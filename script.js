@@ -213,10 +213,13 @@
                 rootMargin: '0px 0px -50px 0px'
             };
 
-            const observer = new IntersectionObserver(function(entries) {
+            const observer = new IntersectionObserver(function(entries, observer) {
                 entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
-                        entry.target.style.animation = 'slideUp 0.6s ease-out forwards';
+                        // Tambahkan class .in-view saat elemen terlihat
+                        entry.target.classList.add('in-view');
+                        // Hentikan pengamatan setelah animasi berjalan
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
