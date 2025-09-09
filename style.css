@@ -1,918 +1,494 @@
-        /* Reset & Variables */
-        :root {
-            --primary-color: #8B4513;
-            --secondary-color: #D2691E;
-            --accent-color: #FFD700;
-            --dark-color: #2c1810;
-            --light-color: #f8f6f3;
-            --text-dark: #333;
-            --text-light: #666;
-            --gradient-primary: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
-            --gradient-accent: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            --shadow-soft: 0 10px 40px rgba(139, 69, 19, 0.1);
-            --shadow-medium: 0 15px 50px rgba(139, 69, 19, 0.2);
-            --border-radius: 20px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background: var(--light-color);
-            color: var(--text-dark);
-            overflow-x: hidden;
-            animation: pageFadeIn 1.2s ease-out forwards;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .coffee-bean {
-            position: absolute;
-            background: var(--primary-color);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        /* Header */
-        .header {
-            background: #ffffff; /* Latar belakang putih solid saat di atas */
-            box-shadow: 0 5px 30px rgba(0,0,0,0.1);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            transition: background-color 0.4s ease, backdrop-filter 0.4s ease; /* Transisi yang lebih spesifik */
-        }
-
-        .header.scrolled {
-            background: rgba(255, 255, 255, 0.827); /* Latar belakang semi-transparan */
-            backdrop-filter: blur(10px); /* Efek 'frosted glass' untuk tampilan modern */
-            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            padding: 1rem 2rem;
-        }
-
-        .nav-container > nav {
-            margin-left: auto;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-        }
-
-        .logo-img {
-            width: 65px;
-            height: 65px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .logo-img::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: var(--gradient-accent);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .logo-img:hover::before {
-            opacity: 0.2;
-            transform: scale(1.1);
-        }
-
-        .logo-img:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .logo-text {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            letter-spacing: -1px;
-        }
-
-        .logo-text .highlight {
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Navigation */
-        .menu-toggle {
-            display: flex;
-            background: var(--gradient-primary);
-            border: none;
-            border-radius: 12px;
-            width: 50px;
-            height: 50px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s ease;
-            position: relative;   /* <-- TAMBAHKAN BARIS INI */
-            z-index: 1002;        /* <-- TAMBAHKAN BARIS INI */
-        }
-
-        .menu-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .menu-toggle span {
-            width: 22px;
-            height: 3px;
-            background: white;
-            margin: 3px 0;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        .main-nav {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-item a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-item a:hover,
-        .nav-item a.active {
-            color: white;
-            background-color: var(--primary-color);
-        }
-        .nav-item a i {
-            display: none;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-top: 120px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 2rem;
-        }
-
-        .content-section {
-            display: none;
-            animation: slideUp 0.6s ease-out;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background-image: linear-gradient(rgba(44, 24, 16, 0.6), rgba(44, 24, 16, 0.6)), url('IMG-20250906-WA0006.jpg');
-             background-size: cover;
-            background-position: center;
-            border-radius: var(--border-radius);
-            padding: 4rem 2rem;
-            text-align: center;
-            color: white;
-            margin-bottom: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            animation: movePattern 20s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes movePattern {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50px, -50px); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-button {
-            background: var(--gradient-accent);
-            color: var(--dark-color);
-            padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: var(--shadow-medium);
-        }
-
-        /* Cards */
-        .card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(139, 69, 19, 0.1);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gradient-primary);
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        /* Menu Grid */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* <-- Cukup ubah baris ini */
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .menu-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gradient-primary);
-        }
-
-        .menu-card:hover {
-            transform: translateY(-10px) rotate(1deg);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .menu-card h3 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(139, 69, 19, 0.1);
-            transition: all 0.3s ease;
-            position: relative; /* Tambahkan ini */
-            transition: all 0.3s ease;
-        }
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            left: -2rem; /* Posisi awal di luar */
-            top: 50%;
-            transform: translateY(-50%);
-            width: 8px;
-            height: 8px;
-            background: var(--secondary-color);
-            border-radius: 50%;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .menu-item:hover::before {
-            left: -1.5rem; /* Bergerak ke dalam saat di-hover */
-            opacity: 1;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .menu-item:hover {
-            background: rgba(139, 69, 19, 0.05);
-            padding-left: 1rem;
-        }
-
-        .menu-name {
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .menu-price {
-            color: var(--secondary-color);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0; /* Ubah dari left: 50% */
-            right: 0; /* Tambahkan ini */
-            margin: auto; /* Tambahkan ini untuk tetap di tengah */
-            width: 100px;
-            height: 4px;
-            background: var(--gradient-accent);
-            border-radius: 2px;
-            transform: scaleX(0); /* Mulai dengan skala 0 */
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); /* Animasi transisi */
-        }
-        .content-section.active .section-title::after {
-            transform: scaleX(1); /* Animasikan ke skala penuh */
-        }
-
-        /* Gallery */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .gallery-item {
-            height: 250px;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s ease;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .gallery-placeholder {
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            text-align: center;
-            font-size: 1.2rem;
-            position: relative;
-        }
-
-        .gallery-placeholder::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Feature boxes */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .feature-box {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-soft);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .feature-box:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: white;
-        }
-
-        /* WhatsApp Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 1000;
-            background: #25D366;
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-            text-decoration: none;
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); }
-            50% { box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6), 0 0 0 10px rgba(37, 211, 102, 0.1); }
-            100% { box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); }
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            animation: none;
-        }
-
-        /* Contact Grid */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        /* News cards */
-        .news-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--accent-color);
-            margin-bottom: 2rem;
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .news-date {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .news-title {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--dark-color);
-            color: white;
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            padding: 0 2rem;
-        }
-
-        .footer-section h3 {
-            color: var(--accent-color);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .footer-section p, .footer-section li {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--accent-color);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            margin-top: 2rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex;
-            }
-
-        .main-nav {
-            position: fixed;
-            top: 0;
-            right: 0; 
-            width: 240px !important; 
-            height: 100vh;
-            background: rgba(245, 245, 245, 0.875);
-            backdrop-filter: blur(15px);
-            flex-direction: column;
-            padding: 100px 0 20px 0;
-            transform: translateX(100%); 
-            transition: transform 0.4s ease;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.1); 
-            gap: 0;
-            z-index: 1001; /* <-- TAMBAHKAN BARIS INI */
-        }
-
-            .nav-item a i {
-                display: inline-block; /* Mengembalikan ikon agar terlihat */
-                margin-right: 10px;   /* Memberi sedikit jarak antara ikon dan teks */
-                width: 20px;          /* Menetapkan lebar agar teks lebih rapi */
-            }
-
-            .main-nav.active {
-                transform: translateX(0);
-            }
-
-            .nav-item {
-                width: 100%;
-            }
-
-            .nav-item a {
-                display: block;
-                padding: 1rem 2rem;
-                border-radius: 0;
-                border-left: 4px solid transparent;
-            }
-
-            .nav-item a:hover,
-            .nav-item a.active {
-                border-left-color: var(--primary-color);
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .nav-container {
-                padding: 1rem;
-            }
-
-            .main-content {
-                padding: 1rem;
-                margin-top: 100px;
-            }
-
-            .menu-grid,
-            .contact-grid,
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-section {
-                padding: 3rem 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-section {
-                padding: 2rem 1rem;
-            }
-
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .logo-text {
-                font-size: 1.5rem;
-            }
-
-            .main-nav {
-                width: 100%;
-            }
-        }
-        @keyframes fadeOut {
-        from {
-            opacity: 1;
-        }
-        to {
-            opacity: 0;
-        }
-        }
-
-        /* Sedikit penyempurnaan dari animasi slideUp yang ada */
-        @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        }
-
-        /* Class untuk menerapkan animasi */
-        .animate-fade-out {
-        animation: fadeOut 0.4s ease-out forwards;
-        }
-
-        .animate-fade-in-up {
-        animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        .feature-box {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .feature-box.in-view {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .feature-box:nth-child(1) { transition-delay: 0.1s; }
-        .feature-box:nth-child(2) { transition-delay: 0.2s; }
-        .feature-box:nth-child(3) { transition-delay: 0.25s; }
-        .feature-box:nth-child(4) { transition-delay: 0.35s; }
-        
-        /* === STYLE KHUSUS UNTUK FORM KRITIK & SARAN === */
-
-/* Wadah utama form */
-#feedbackForm {
-  background-color: #FFFFFF;
-  padding: 2rem 2.5rem;
-  border-radius: 15px;
-  border-top: 4px solid var(--primary-color);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-  margin-top: 1.5rem;
-  transition: all 0.3s ease-in-out;
-}
-
-#feedbackForm:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.09);
-}
-
-/* Label "Pesan Anda" */
-#feedbackForm label {
-  display: block;
-  margin-bottom: 0.75rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--dark-color);
-}
-
-/* Kotak input pesan (textarea) */
-#feedbackMessage {
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: var(--text-dark);
-  resize: vertical;
-  min-height: 140px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
-}
-
-/* Style untuk placeholder text */
-#feedbackMessage::placeholder {
-  color: #b0b0b0;
-  font-style: italic;
-}
-
-/* Efek saat textarea diklik/aktif (efek glow) */
-#feedbackMessage:focus {
-  outline: none;
-  border-color: var(--secondary-color);
-  box-shadow: 0 0 0 4px rgba(210, 105, 30, 0.2);
-}
-
-/* Tombol Kirim */
-#feedbackForm .cta-button {
-  width: 100%;
-  margin-top: 1rem; /* Beri jarak dari textarea */
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem; /* Jarak antara ikon dan teks */
-}
-
-@media (min-width: 769px) {
-
-  /* 1. Sembunyikan tombol hamburger menu di desktop */
-  .menu-toggle {
-    display: none;
-  }
-
-  /* 2. Pastikan navigasi utama selalu terlihat dan horizontal */
-  .main-nav {
-    /* Hapus semua style mobile */
-    position: static;
-    transform: none;
-    flex-direction: row;
-    width: auto !important; /* !important untuk menimpa style inline dari JS */
-    height: auto;
-    background: none;
-    backdrop-filter: none;
-    box-shadow: none;
-    padding: 0;
-    
-    /* Pastikan kembali ke layout flexbox desktop */
-    display: flex;
-    gap: 2rem; /* Sesuaikan gap jika perlu */
-  }
-  
-  /* 3. Kembalikan style link navigasi seperti semula */
-  .nav-item a {
-      display: inline-block; /* Pastikan link tidak block-level */
-      padding: 0.8rem 1.5rem;
-      border-left: none; /* Hapus border kiri dari tampilan mobile */
-  }
-
-  /* 4. Sembunyikan ikon di samping link menu (jika masih muncul) */
-  .nav-item a i {
-    display: none;
-  }
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warkop Candra - Warung Kopi Terbaik</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Header -->
+<header class="header" id="header">
+        <div class="nav-container">
+            <div class="logo-section" id="logo">
+                <div class="logo-img">
+                    <img src="logo.png" alt="Logo Warkop Candra">
+                </div>
+                <div class="logo-text">
+                    WARKOP <span class="highlight">CANDRA</span>
+                </div>
+            </div>
+            <nav>
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <ul class="main-nav" id="mainNav">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="home">
+                            <i class="fas fa-home"></i> HOME
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="menu">
+                            <i class="fas fa-coffee"></i> MENU
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="tentang">
+                            <i class="fas fa-info-circle"></i> TENTANG
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="kontak">
+                            <i class="fas fa-phone"></i> KONTAK
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="galeri">
+                            <i class="fas fa-images"></i> GALERI
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="content-section active">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">Selamat Datang di WARKOP CANDRA</h1>
+                    <p class="hero-subtitle">
+                        Nikmati pengalaman ngopi terbaik dengan suasana ceria, WiFi super cepat, 
+                        dan harga yang bersahabat di warung kopi terbaik.
+                    </p>
+                    <button class="cta-button" onclick="showSection('menu')">
+                        <i class="fas fa-coffee"></i> Lihat Menu
+                    </button>
+                </div>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">WiFi Super Cepat</h3>
+                    <p style="color: var(--text-light);">Internet 250 Mbps anti lemot, produktivitas makin top!</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Musik Sepanjang Hari</h3>
+                    <p style="color: var(--text-light);">Musik asik sepanjang hari yang bikin betah berlama-lama</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Harga Bersahabat</h3>
+                    <p style="color: var(--text-light);">Menu komplit dari ngopi sampai ngemil, tidak membuat kantongmu kering</p>
+                </div>
+                <div class="feature-box">
+            <div class="feature-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Buka 24 Jam</h3>
+            <p style="color: var(--text-light);">Karena keinginan ngopi nggak kenal waktu!</p>
+            </div>
+        </div>
+
+            <div class="card">
+                <h2 style="color: var(--primary-color); font-size: 2rem; margin-bottom: 1.5rem; text-align: center;">
+                    <i class="fas fa-heart"></i> Tentang Kami
+                </h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-light); text-align: justify; margin-bottom: 1.5rem;">
+                    Sejak pertama kali dibuka pada tahun 2016 di Jalan Raya Surabaya—Madiun, Gilang, Taman, Sidoarjo, tepatnya di sebelah barat 
+                    Garasi Bus Sinar Mandiri, Warkop Candra hadir sebagai tempat singgah yang sederhana namun penuh cerita. Di tahun 2020, kami 
+                    memperluas perjalanan ini dengan membuka cabang baru di Krian, Sidoarjo, yang hingga kini menjadi tempat utama kami melayani 
+                    pelanggan setia.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-light); text-align: justify; margin-bottom: 1.5rem;">
+                    Warkop Candra berdiri dengan filosofi sederhana: menyediakan tempat santai dengan harga terjangkau,
+                    di mana setiap orang dapat menikmati secangkir kopi sambil berbagi cerita, melepas penat, atau 
+                    bekerja dengan suasana yang nyaman. Kami percaya bahwa kopi bukan hanya soal rasa, tetapi juga 
+                    pengalaman yang menyertainya.
+                </p>
+                <div style="background: var(--gradient-primary); padding: 1.5rem; border-radius: 15px; color: white; text-align: center; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-star"></i> Komitmen Kami</h3>
+                    <p><strong>Kualitas • Kenyamanan • Komunitas</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="content-section">
+            <h1 class="section-title">Menu Kami</h1>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3><i class="fas fa-mug-hot"></i> Kopi Panas</h3>
+                    <div class="menu-item">
+                        <span class="menu-name">Kopi Lasem</span>
+                        <span class="menu-price">Rp 15.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Kopi Hitam</span>
+                        <span class="menu-price">Rp 12.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Kopi Sachet</span>
+                        <span class="menu-price">Rp 18.000</span>
+                    </div>
+                     <div class="menu-item">
+                        <span class="menu-name">Kopi Susu</span>
+                        <span class="menu-price">Rp 18.000</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <h3><i class="fas fa-snowflake"></i>Es</h3>
+                    <div class="menu-item">
+                        <span class="menu-name">Pop Ice</span>
+                        <span class="menu-price">Rp 18.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Nutrisari</span>
+                        <span class="menu-price">Rp 16.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Good Day Freeze/Cappucino</span>
+                        <span class="menu-price">Rp 22.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Soda Gembira</span>
+                        <span class="menu-price">Rp 25.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Segar Dingin</span>
+                        <span class="menu-price">Rp 15.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Adem Sari</span>
+                        <span class="menu-price">Rp 15.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Es Teh</span>
+                        <span class="menu-price">Rp 15.000</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <h3><i class="fas fa-glass-water"></i> Minuman Non-Kopi</h3>
+                    <div class="menu-item">
+                        <span class="menu-name">Teh Hangat</span>
+                        <span class="menu-price">Rp 12.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Energen</span>
+                        <span class="menu-price">Rp 15.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Chocolatos</span>
+                        <span class="menu-price">Rp 18.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Susu Putih/Coklat</span>
+                        <span class="menu-price">Rp 22.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Es Teh Manis</span>
+                        <span class="menu-price">Rp 8.000</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <h3><i class="fas fa-bread-slice"></i> Makanan</h3>
+                    <div class="menu-item">
+                        <span class="menu-name">Roti Bakar</span>
+                        <span class="menu-price">Rp 12.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Croissant</span>
+                        <span class="menu-price">Rp 15.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Sandwich Club</span>
+                        <span class="menu-price">Rp 20.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Nasi Gudeg</span>
+                        <span class="menu-price">Rp 18.000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-name">Pisang Goreng</span>
+                        <span class="menu-price">Rp 8.000</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tentang Section -->
+        <section id="tentang" class="content-section">
+            <h1 class="section-title">Tentang Warkop Candra</h1>
+            
+            <div class="card">
+                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-history"></i> Sejarah Kami
+                </h3>
+                <img src="IMG-20250906-WA0004.jpg" alt="Tampak Depan Warkop Candra" style="width: 100%; border-radius: 15px; margin-bottom: 1.5rem;">
+                <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-light);">
+                    Warkop Candra didirikan pada tahun 2016 dengan visi menciptakan ruang 
+                    komunitas yang nyaman untuk para pecinta kopi. Berawal dari sebuah warung kecil di Jalan Raya 
+                    Surabaya—Madiun, Gilang, Taman, Sidoarjo, kini Warkop Candra telah berkembang menjadi destinasi favorit di 
+                    Jawa Timur dengan membuka cabang di Krian, Sidoarjo pada tahun 2020.
+                </p>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-bullseye"></i> Visi & Misi
+                </h3>
+                <div style="background: var(--light-color); padding: 1.5rem; border-radius: 15px; margin-bottom: 1rem;">
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-dark); margin-bottom: 1rem;">
+                        <strong style="color: var(--primary-color);">Visi:</strong> Menjadi warkop terdepan yang menyajikan kopi berkualitas dengan harga terjangkau dan suasana yang hangat bagi semua kalangan.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-dark);">
+                        <strong style="color: var(--primary-color);">Misi:</strong> Menyediakan pengalaman ngopi yang autentik, membangun komunitas yang solid, dan mendukung petani kopi lokal melalui kemitraan yang berkelanjutan.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-star"></i> Keunggulan Kami
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="background: var(--light-color); padding: 1rem; border-radius: 10px; text-align: center;">
+                        <i class="fas fa-seedling" style="color: var(--secondary-color); font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <p style="color: var(--text-dark); font-weight: 600;">Biji Kopi Pilihan</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Dari petani lokal Jawa Timur</p>
+                    </div>
+                    <div style="background: var(--light-color); padding: 1rem; border-radius: 10px; text-align: center;">
+                        <i class="fas fa-tags" style="color: var(--secondary-color); font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <p style="color: var(--text-dark); font-weight: 600;">Harga Transparan</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Terjangkau untuk semua</p>
+                    </div>
+                    <div style="background: var(--light-color); padding: 1rem; border-radius: 10px; text-align: center;">
+                        <i class="fas fa-home" style="color: var(--secondary-color); font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <p style="color: var(--text-dark); font-weight: 600;">Suasana Hangat</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Ramah keluarga</p>
+                    </div>
+                    <div style="background: var(--light-color); padding: 1rem; border-radius: 10px; text-align: center;">
+                        <i class="fas fa-clock" style="color: var(--secondary-color); font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <p style="color: var(--text-dark); font-weight: 600;">Pelayanan Cepat</p>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">Dan berkualitas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontak" class="content-section">
+            <h1 class="section-title">Hubungi Kami</h1>
+            <div class="contact-grid">
+                <div class="card">
+                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">
+                        <i class="fas fa-map-marker-alt"></i> Lokasi Kami
+                    </h3>
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--secondary-color); margin-bottom: 0.5rem;">Cabang Utama - Krian</h4>
+                        <p style="color: var(--text-light); line-height: 1.6;">
+                            Jl. Raya Krian No. 88<br>
+                            Krian, Sidoarjo<br>
+                            Jawa Timur 61262
+                        </p>
+                    </div>
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.7421427986847!2d112.61358637476181!3d-7.382767892626817!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7809ef8d2eeaff%3A0x96a385a463426890!2sWarkop%20Candra2!5e0!3m2!1sid!2sid!4v1757157182522!5m2!1sid!2sid"
+                        width="100%" 
+                        height="300" 
+                        style="border:0; border-radius: 15px;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div style="background: var(--light-color); padding: 1rem; border-radius: 10px; margin-top: 1.5rem;">
+                        <p style="color: var(--text-dark); font-weight: 600; margin-bottom: 0.5rem;">
+                            <i class="fas fa-clock"></i> Jam Operasional:
+                        </p>
+                        <p style="color: var(--text-light);">
+                            BUKA 24 JAM
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">
+                        <i class="fas fa-phone"></i> Kontak
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-phone" style="color: white;"></i>
+                            </div>
+                            <div>
+                                <p style="color: var(--text-dark); font-weight: 600;">Telepon</p>
+                                <p style="color: var(--text-light);">(031) 567-8910</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fab fa-whatsapp" style="color: white;"></i>
+                            </div>
+                            <div>
+                                <p style="color: var(--text-dark); font-weight: 600;">WhatsApp</p>
+                                <p style="color: var(--text-light);">+62 821-4105-5207</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-envelope" style="color: white;"></i>
+                            </div>
+                            <div>
+                                <p style="color: var(--text-dark); font-weight: 600;">Email</p>
+                                <p style="color: var(--text-light);">info@warkopcandra.com</p>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                        <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 1.5rem;">
+                            <i class="fas fa-comment-dots"></i> Kirim Kritik & Saran
+                        </h3>
+                        <p style="color: var(--text-light); margin-bottom: 1.5rem;">
+                            Masukan Anda sangat berarti bagi kami untuk menjadi lebih baik.
+                        </p>
+                    <form id="feedbackForm">
+                        <div class="feedback-input-wrapper">
+                            <label for="feedbackMessage" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Pesan Anda</label>
+                            <textarea id="feedbackMessage" rows="5" placeholder="Tulis kritik atau saran Anda di sini..." required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; resize: vertical;"></textarea>
+                            
+                            <div id="feedbackError" class="custom-error-tooltip">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Mohon isi kritik atau saran Anda.</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="kirimSaranBtn" class="cta-button" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Kirim via WhatsApp
+                        </button>
+                    </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Galeri Section -->
+        <section id="galeri" class="content-section">
+            <h1 class="section-title">Galeri</h1>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-home" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Interior Utama
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-coffee" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Menu Signature
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-tree" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Suasana Outdoor
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-user-tie" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Barista Profesional
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-fire" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Fresh Brewing
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Komunitas Ngopi
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-music" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Live Music Event
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">
+                        <i class="fas fa-palette" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <br>Special Latte Art
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-light); font-style: italic;">
+                * Foto-foto akan diganti dengan dokumentasi asli Warkop Candra
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-coffee"></i> Warkop Candra</h3>
+                <p>Di mana setiap cangkir kopi menjadi jembatan cerita, dan setiap kunjungan terasa seperti pulang ke rumah.</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-map-marker-alt"></i> Lokasi</h3>
+                <ul>
+                    <li>Jl. Raya Madiun - Surabaya No.KM, RW.25, Sidorejo, Kec. Krian, Kabupaten Sidoarjo</li>
+                    <i>Sebelah barat PO Sumber Group dan di depan Pabrik Java</i>
+                </ul>
+                <p style="margin-top: 1rem; font-weight: 600;">Buka setiap hari: 24 Jam</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-phone"></i> Kontak</h3>
+                <ul>
+                    <li>Telepon: 082141055207</li>
+                    <li>WhatsApp: +62 821-4105-5207</li>
+                    <li>Email: info@warkopcandra.com</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-star"></i> Mengapa Memilih Kami?</h3>
+                <ul>
+                    <li>WiFi Super Cepat 250 Mbps</li>
+                    <li>Musik Sepanjang Hari</li>
+                    <li>Buka 24 Jam</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Warkop Candra. All rights reserved. | Dibuat dengan ❤️ untuk para pecinta kopi</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/6282141055207" class="whatsapp-float" target="_blank" aria-label="Contact WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <script src="script.js"></script>
+</body>
+</html>
